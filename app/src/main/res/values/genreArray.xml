@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genres">
+        <item>None</item>
+        <item>Art</item>
+        <item>Biography</item>
+        <item>Classic</item>
+        <item>Crime</item>
+        <item>Fantasy</item>
+        <item>Fiction</item>
+        <item>Horror</item>
+        <item>Humor</item>
+        <item>Mystery</item>
+        <item>Nonfiction</item>
+        <item>Romance</item>
+        <item>Sci-Fi</item>
+        <item>Thriller</item>
+    </string-array>
+</resources>
