@@ -19,7 +19,7 @@ interface BookDAO {
     fun viewAllBooks() : Flow<List<BookEntity>>
 
     @Query("SELECT * FROM reading_list WHERE read = 0") //0 = false
-    fun viewUnread() : List<BookEntity>
+    fun viewUnread() : Flow<List<BookEntity>>
 
     @Query("SELECT * FROM reading_list WHERE title = :title")
     fun findBook(title: String) : BookEntity

@@ -17,15 +17,16 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
 
-    private val viewModel: AddViewModel by viewModels {
-        AddViewModelFactory(
-            (application as DatabaseApplication).repository
-        )
-    }
+//    private val viewModel: AddViewModel by viewModels {
+//        AddViewModelFactory(
+//            (activity?.application as DatabaseApplication).repository
+//        )
+//    }
 
     private lateinit var db: BookRoomDatabase
-
     private lateinit var binding: ActivityMainBinding
+
+    val viewModel by viewModels<AddViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,16 +47,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        // Insert a book for testing purpose -- this version uses a coroutine
-        GlobalScope.launch {
-            viewModel.addNewBook(
-                "Of Mice and Men",
-                "John Steinbeck",
-                "Classic",
-                "None",
-                "0140177396"
-            )
-        }
+
     }
 
 

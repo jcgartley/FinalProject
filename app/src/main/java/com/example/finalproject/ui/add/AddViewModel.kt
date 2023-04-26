@@ -1,9 +1,11 @@
 package com.example.finalproject.ui.add
 
+import android.app.Application
 import androidx.lifecycle.*
-import androidx.lifecycle.ViewModelProvider.Factory
 import kotlinx.coroutines.launch
 import com.example.finalproject.database.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 
 class AddViewModel (private val repository: DatabaseRepository) : ViewModel() {
 
@@ -11,9 +13,10 @@ class AddViewModel (private val repository: DatabaseRepository) : ViewModel() {
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
-    val allBooks: LiveData<List<BookEntity>> = repository.allBooks.asLiveData()
-    val allUnreadBooks: List<BookEntity> = repository.allUnreadBooks
 
+
+    val allBooks: LiveData<List<BookEntity>> = repository.allBooks.asLiveData()
+    //val allUnreadBooks: List<BookEntity> = repository.allUnreadBooks
     private fun insertBook(book: BookEntity) = viewModelScope.launch {
         repository.insertBook(book)
     }
@@ -50,7 +53,7 @@ class AddViewModel (private val repository: DatabaseRepository) : ViewModel() {
     }
 }
 
-class AddViewModelFactory(private val repository: DatabaseRepository) : Factory {
+class AddViewModelFactory(private val repository: DatabaseRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AddViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    //id 'com.google.devtools.ksp' version "1.8.10-1.0.9"
+    id 'com.google.devtools.ksp' version "1.8.10-1.0.9"
 }
 
 android {
@@ -32,7 +32,6 @@ android {
 
     kotlinOptions {
         jvmTarget = '18'
-        //jvmToolchain(JavaVersion.VERSION_1_8)
     }
     buildFeatures {
         viewBinding true

@@ -8,19 +8,23 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.finalproject.R
 import com.example.finalproject.database.*
+import com.example.finalproject.databinding.ActivityMainBinding
+import com.example.finalproject.databinding.FragmentListBinding
 
 
 class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private val TAG = "NewBookForm"
 
+    private var _binding: FragmentListBinding? = null
+    private val binding get() = _binding!!
+    //val viewModel by activityViewModels<AddViewModel>()
     private val viewModel: AddViewModel by viewModels {
-        AddViewModelFactory(
-            (activity?.application as DatabaseApplication).repository
-        )
+        AddViewModelFactory((activity?.application as DatabaseApplication).repository)
     }
     lateinit var book : BookEntity
     lateinit var allBooks : List<BookEntity>
