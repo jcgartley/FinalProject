@@ -17,12 +17,6 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
 
-//    private val viewModel: AddViewModel by viewModels {
-//        AddViewModelFactory(
-//            (activity?.application as DatabaseApplication).repository
-//        )
-//    }
-
     private lateinit var db: BookRoomDatabase
     private lateinit var binding: ActivityMainBinding
 

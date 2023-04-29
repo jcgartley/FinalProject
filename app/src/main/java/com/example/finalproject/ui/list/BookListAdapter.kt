@@ -18,16 +18,16 @@ class BookListAdapter : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.title, current.author)
+        holder.bind(current.title)//, current.author
     }
 
     class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val bookTitleView: TextView = itemView.findViewById(R.id.titleView)
-        private val bookAuthorView: TextView = itemView.findViewById(R.id.authorView)
+        //private val bookAuthorView: TextView = itemView.findViewById(R.id.authorView)
 
-        fun bind(title: String?, author: String?) {
+        fun bind(title: String?) {//, author: String?
             bookTitleView.text = title
-            bookAuthorView.text = author
+           // bookAuthorView.text = author
         }
 
         companion object {
