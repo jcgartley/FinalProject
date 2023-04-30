@@ -9,14 +9,10 @@ import kotlinx.coroutines.SupervisorJob
 
 class AddViewModel (private val repository: DatabaseRepository) : ViewModel() {
 
-    // Using LiveData and caching what allWords returns has several benefits:
-    // - We can put an observer on the data (instead of polling for changes) and only update the
-    //   the UI when the data actually changes.
-    // - Repository is completely separated from the UI through the ViewModel.
+      //private lateinit var repository : DatabaseRepository
 
+    val allBooks: LiveData<List<BookEntity>> = repository.getAllBooks().asLiveData()
 
-    val allBooks: LiveData<List<BookEntity>> = repository.allBooks.asLiveData()
-    //val allUnreadBooks: List<BookEntity> = repository.allUnreadBooks
     private fun insertBook(book: BookEntity) = viewModelScope.launch {
         repository.insertBook(book)
     }

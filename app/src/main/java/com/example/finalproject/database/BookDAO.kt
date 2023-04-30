@@ -15,6 +15,10 @@ interface BookDAO {
     @Delete
     suspend fun deleteBook(book: BookEntity)
 
+    @Query("DELETE FROM reading_list")
+    suspend fun deleteAll()
+
+
     @Query("SELECT * FROM reading_list")
     fun viewAllBooks() : Flow<List<BookEntity>>
 

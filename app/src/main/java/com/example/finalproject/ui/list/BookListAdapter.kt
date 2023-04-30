@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
 import com.example.finalproject.database.BookEntity
 
-class BookListAdapter : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(BooksComparator()) {
+class BookListAdapter : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(BOOKS_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         return BookViewHolder.create(parent)
@@ -18,16 +18,16 @@ class BookListAdapter : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.title)//, current.author
+        holder.bind(current.title, current.author)
     }
 
     class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val bookTitleView: TextView = itemView.findViewById(R.id.titleView)
-        //private val bookAuthorView: TextView = itemView.findViewById(R.id.authorView)
+        private val bookAuthorView: TextView = itemView.findViewById(R.id.authorView)
 
-        fun bind(title: String?) {//, author: String?
+        fun bind(title: String?, author: String?) {//
             bookTitleView.text = title
-           // bookAuthorView.text = author
+            bookAuthorView.text = author
         }
 
         companion object {
@@ -38,14 +38,15 @@ class BookListAdapter : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(
             }
         }
     }
+    companion object {
+        private val BOOKS_COMPARATOR = object : DiffUtil.ItemCallback<BookEntity>() {
+            override fun areItemsTheSame(oldItem: BookEntity, newItem: BookEntity): Boolean {
+                return oldItem === newItem
+            }
+            override fun areContentsTheSame(oldItem: BookEntity, newItem: BookEntity): Boolean {
+                return (oldItem.title == newItem.title) && (oldItem.author == newItem.author)
+            }
 
-    class BooksComparator : DiffUtil.ItemCallback<BookEntity>() {
-        override fun areItemsTheSame(oldItem: BookEntity, newItem: BookEntity): Boolean {
-            return oldItem === newItem
-        }
-
-        override fun areContentsTheSame(oldItem: BookEntity, newItem: BookEntity): Boolean {
-            return (oldItem.title == newItem.title) && (oldItem.author == newItem.author)
         }
     }
 }
