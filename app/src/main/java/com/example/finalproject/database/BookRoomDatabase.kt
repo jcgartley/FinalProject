@@ -7,6 +7,8 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.finalproject.ui.add.AddViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Database(entities = [BookEntity::class], version = 3)
 abstract class BookRoomDatabase : RoomDatabase(){
@@ -37,7 +39,7 @@ abstract class BookRoomDatabase : RoomDatabase(){
         }
         private class WordDatabaseCallback(
             private val scope: CoroutineScope
-        ) : RoomDatabase.Callback() {
+        ) : Callback() {
             /**
              * Override the onCreate method to populate the database.
              */
@@ -45,12 +47,21 @@ abstract class BookRoomDatabase : RoomDatabase(){
                 super.onCreate(db)
                 // If you want to keep the data through app restarts,
                 // comment out the following line.
-//                INSTANCE?.let { database ->
-//                    scope.launch(Dispatchers.IO) {
-//                        populateDatabase(database.wordDao())
-//                    }
-//                }
+                INSTANCE?.let { database ->
+                    scope.launch(Dispatchers.IO) {
+                        populateDatabase(database.bookDAO())
+                    }
+                }
+            }
+                suspend fun populateDatabase(bookDao: BookDAO) {
+                    // Delete all content here.
+                    bookDao.deleteAll()
+
+                    // Add sample words.
+                    var book = BookEntity("Catcher in the Rye", "J.D. Salinger", "Classic", "", "0241950430", false, "")
+                    bookDao.insertBook(book)
+                }
+
             }
         }
     }
-}

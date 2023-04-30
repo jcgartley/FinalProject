@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import com.example.finalproject.R
 import com.example.finalproject.database.*
 import com.example.finalproject.databinding.ActivityMainBinding
+import com.example.finalproject.databinding.FragmentAddBinding
 import com.example.finalproject.databinding.FragmentListBinding
 
 
@@ -20,7 +21,7 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private val TAG = "NewBookForm"
 
-    private var _binding: FragmentListBinding? = null
+    private var _binding: FragmentAddBinding? = null
     private val binding get() = _binding!!
     //val viewModel by activityViewModels<AddViewModel>()
     private val viewModel: AddViewModel by viewModels {
