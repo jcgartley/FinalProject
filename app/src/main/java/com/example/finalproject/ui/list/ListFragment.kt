@@ -5,21 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
 import com.example.finalproject.database.BookEntity
 import com.example.finalproject.database.DatabaseApplication
-import com.example.finalproject.databinding.FragmentHomeBinding
-import com.example.finalproject.databinding.FragmentListBinding
 import com.example.finalproject.ui.add.AddViewModel
 import com.example.finalproject.ui.add.AddViewModelFactory
 import com.example.finalproject.ui.home.HomeViewModel
-import com.example.finalproject.ui.search.SearchViewModel
 
 class ListFragment : Fragment() {
     //private lateinit var listViewModel: ListViewModel
@@ -71,13 +66,7 @@ class ListFragment : Fragment() {
             // Update the cached copy of the words in the adapter.
             books.let { adapter.submitList(it) }
         }
-
-
-
-
     }
-
-
 }
 
 //package com.example.finalproject.ui.list
