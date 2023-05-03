@@ -9,7 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.finalproject.databinding.ActivityMainBinding
-import com.example.finalproject.database.*
+
 import com.example.finalproject.ui.add.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
 
-    private lateinit var db: BookRoomDatabase
     private lateinit var binding: ActivityMainBinding
 
     val viewModel by viewModels<AddViewModel>()

@@ -131,49 +131,39 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:layout_marginTop="16dp"
 android:text="Add a book"
-app:layout_constraintEnd_toStartOf="@+id/view_button"
+    android:textColor="@color/white"
+    android:backgroundTint="@color/purple_200"
+app:layout_constraintEnd_toStartOf="@+id/update_button"
 app:layout_constraintHorizontal_bias="0.5"
 app:layout_constraintStart_toStartOf="parent"
 app:layout_constraintTop_toBottomOf="@+id/textView5" />
-    <Button
-        android:id="@+id/view_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View All Books"
-        app:layout_constraintBottom_toBottomOf="@+id/add_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/add_button" />
-    <!--        android:onClick="viewAllDataButton"-->
+<!--    <Button-->
+<!--        android:id="@+id/view_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="View All Books"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:backgroundTint="@color/purple_200"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/add_button"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/add_button" />-->
 
-    <!--        android:onClick="addButton"-->
 
-    <!--    <Button-->
-    <!--        android:id="@+id/delete_button"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="Clear the Database"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/add_button"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.5"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/add_button" />-->
-
-    <!--        android:onClick="clearDatabase"-->
-
-    <!--    <Button-->
-    <!--        android:id="@+id/update_button"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="32dp"-->
-    <!--        android:text="Update by Title"-->
-    <!--        app:layout_constraintEnd_toStartOf="@+id/view_button"-->
-    <!--        app:layout_constraintHorizontal_bias="0.5"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/add_button" />-->
-
-    <!--        android:onClick="updateButton"-->
+        <Button
+            android:id="@+id/update_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Update by Title"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/purple_200"
+            app:layout_constraintBottom_toBottomOf="@+id/add_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/add_button" />
 
 
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>

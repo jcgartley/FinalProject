@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:textAlignment="center">
+    <!--    tools:context=".ui.add.AddFragment"-->
+
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="[TITLE]"
+        android:textAlignment="center"
+        android:layout_marginTop="16dp"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/authorView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="[AUTHOR]"
+        android:textAlignment="center"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleView" />
+
+    <TextView
+        android:id="@+id/genre1View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="[GENRE ONE]"
+        android:textAlignment="center"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/genre2View"
+        app:layout_constraintBottom_toBottomOf="@id/genre2View"
+        app:layout_constraintTop_toBottomOf="@id/authorView" />
+
+    <TextView
+        android:id="@+id/genre2View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="[GENRE TWO]"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.535"
+        app:layout_constraintStart_toEndOf="@id/genre1View"
+        app:layout_constraintTop_toTopOf="@id/genre1View" />
+
+    <TextView
+        android:id="@+id/summaryView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="[SUMMARY]"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/genre1View" />
+
+<!--TODO: ADD mark as read + delete button-->
+    <CheckBox
+        android:id="@+id/markAsRead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mark as Read"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+        app:layout_constraintTop_toBottomOf="@+id/summaryView" />
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Book"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/markAsRead"
+        app:layout_constraintTop_toTopOf="@+id/markAsRead"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

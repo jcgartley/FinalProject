@@ -4,6 +4,7 @@
         <item>None</item>
         <item>Art</item>
         <item>Biography</item>
+        <item>Children</item>
         <item>Classic</item>
         <item>Crime</item>
         <item>Fantasy</item>
@@ -12,8 +13,10 @@
         <item>Humor</item>
         <item>Mystery</item>
         <item>Nonfiction</item>
+        <item>Poetry</item>
         <item>Romance</item>
         <item>Sci-Fi</item>
         <item>Thriller</item>
+        <item>Tragedy</item>
     </string-array>
 </resources>

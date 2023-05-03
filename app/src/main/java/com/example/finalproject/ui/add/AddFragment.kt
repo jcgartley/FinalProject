@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.finalproject.R
-import com.example.finalproject.database.*
+import com.example.finalproject.database.DatabaseRepository
+import com.example.finalproject.database.BookEntity
+import com.example.finalproject.database.DatabaseApplication
 import com.example.finalproject.databinding.ActivityMainBinding
 import com.example.finalproject.databinding.FragmentAddBinding
 import com.example.finalproject.databinding.FragmentListBinding
@@ -73,16 +75,11 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
         genre1Text.onItemSelectedListener = this
         genre2Text.onItemSelectedListener = this
 
-        //add, delete, update, view _buttons, TODO: streamline
+        //add and update, _buttons, TODO: streamline
         view.findViewById<Button>(R.id.add_button).setOnClickListener{addButton(view)}
-        //view.findViewById<Button>(R.id.delete_button).setOnClickListener{clearDatabase(view)}
-        //view.findViewById<Button>(R.id.update_button).setOnClickListener{updateButton(view)}
-        view.findViewById<Button>(R.id.view_button).setOnClickListener{viewAllDataButton(view)}
+        view.findViewById<Button>(R.id.update_button).setOnClickListener{updateButton(view)}
+//        view.findViewById<Button>(R.id.view_button).setOnClickListener{viewAllDataButton(view)}
 
-
-        // Add an observer on the LiveData returned by getAlphabetizedWords.
-        // The onChanged() method fires when the observed data changes and the activity is
-        // in the foreground.
         viewModel.allBooks.observe(viewLifecycleOwner) { books ->
             allBooks = books
         }
@@ -94,7 +91,6 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
      * Inserts a new book in the database
      */
     private fun addButton(view: View) {
-
         // Insert a record
 
         //accessible as global variables
@@ -115,12 +111,33 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         viewModel.addNewBook(title, author, genre1String, genre2String, isbn)
         clearEditTexts()
+    }
 
+    /**
+     * Updates book in the database
+     */
+    private fun updateButton(view: View) {
+        // Update a record
 
-        runOnUiThread {
-            // Do your UI operations
-            showToast("Add Button Clicked")
+        //accessible as global variables
+        //var genre1String
+        //var genre2String
+        val title = titleText.text.toString()
+        var author = authorText.text.toString()
+        val isbn = isbnText.text.toString()
+
+        if (title.isEmpty()){
+            showToast("Please enter a title")
+            return
         }
+        if (author.isEmpty()) {
+            author = "Unknown"
+        }
+        //every other field is nullable, except read which is always false on add
+
+        viewModel.updateBook(title, author, genre1String, genre2String, isbn)
+        clearEditTexts()
+        showToast("Book Updated")
     }
 
     private fun showToast(text: String){
@@ -152,87 +169,37 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun clearDatabase(view: View) {
-//        Thread {
-//            var items = viewModel.allBooks
-//            for (item in items) {
-//                db.bookDAO().deleteBook(item)
-//            }
-//        }.start()
-        //var books = viewModel.allBooks
-        for (book in allBooks) {
-            viewModel.deleteBook(book)
-        }
-    }
-
     /**
-     * Updates a book in the database based on the given title
+     * Views all contacts in the database
      */
-//    private fun updateButton(view: View) {
-//
-//        val title = titleText.text.toString()
-//        if (title.isEmpty()){
-//            showToast("A title must be entered!")
-//            return
-//        }
+//    private fun viewAllDataButton(view: View) {
 //
 //        Thread {
-//            // First find the contact and then update
-//            val book  = db.bookDAO().findBook(title.toString())
-//            Log.d(TAG, "Updating ${book.title}, ${book.author}")
+//            // Read all the records
+////            val books = viewModel.allBooks
 //
-//            // Update the contact
-//            book.title = titleText.text.toString()
-//            book.author = authorText.text.toString()
-//            book.isbn = isbnText.text.toString()
-//            book.genre1 = genre1String
-//            book.genre2 = genre2String
+//            val buffer = StringBuffer()
+//            for (book in allBooks){
+//                Log.d(TAG, "Book: ${book.title}, ${book.author}")
 //
-//            db.bookDAO().updateBook(book)
+//                buffer.append("Title : ${book.title}" + "\n")
+//                buffer.append("Author : ${book.author}" + "\n")
+//                buffer.append("Genres :  ${book.genre1}, ${book.genre2}" + "\n")
+//                buffer.append("API Call : ${book.apiCall}" + "\n")
+//                if (book.isbn != "") {buffer.append("ISBN : ${book.isbn}" + "\n\n")}
+//                else {buffer.append("\n")}
+//            }
 //
-//            clearEditTexts()
 //
 //            // We cannot call showDialog from a non-UI thread, instead we can call it from a runOnUiThread to access our views
 //            runOnUiThread {
 //                // Do your UI operations
-//                showToast("Record Updated Successfully")
+//                showDialog("Book", buffer.toString())
 //            }
 //
 //        }.start()
-//
 //    }
 
-    /**
-     * Views all contacts in the database
-     */
-
-    private fun viewAllDataButton(view: View) {
-
-        Thread {
-            // Read all the records
-            //val books = viewModel.allBooks
-
-            val buffer = StringBuffer()
-            for (book in allBooks){
-                Log.d(TAG, "Book: ${book.title}, ${book.author}")
-
-                buffer.append("Title : ${book.title}" + "\n")
-                buffer.append("Author : ${book.author}" + "\n")
-                buffer.append("Genres :  ${book.genre1}, ${book.genre2}" + "\n")
-                buffer.append("API Call : ${book.apiCall}" + "\n")
-                if (book.isbn != "") {buffer.append("ISBN : ${book.isbn}" + "\n\n")}
-                else {buffer.append("\n")}
-            }
-
-
-            // We cannot call showDialog from a non-UI thread, instead we can call it from a runOnUiThread to access our views
-            runOnUiThread {
-                // Do your UI operations
-                showDialog("Book", buffer.toString())
-            }
-
-        }.start()
-    }
     /**
      * show an alert dialog with data dialog.
      */
@@ -253,8 +220,4 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
         activity?.runOnUiThread(action)
     }
 
-    //pass data from activity to fragment
-//    fun passData(database : BookRoomDatabase) {
-//        db = database
-//    }
 }

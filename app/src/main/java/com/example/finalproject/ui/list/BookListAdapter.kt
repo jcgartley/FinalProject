@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.list
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
 import com.example.finalproject.database.BookEntity
+import com.google.android.material.color.MaterialColors.getColor
 
 class BookListAdapter : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(BOOKS_COMPARATOR) {
 
@@ -18,16 +20,22 @@ class BookListAdapter : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.title, current.author)
+        holder.bind(current.title, current.author, current.read)
     }
 
     class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val bookTitleView: TextView = itemView.findViewById(R.id.titleView)
         private val bookAuthorView: TextView = itemView.findViewById(R.id.authorView)
 
-        fun bind(title: String?, author: String?) {//
+        @SuppressLint("ResourceAsColor")
+        fun bind(title: String?, author: String?, unread: Boolean) {//
             bookTitleView.text = title
             bookAuthorView.text = author
+            if (unread) {
+                bookTitleView.setBackgroundColor(R.color.read)
+                bookAuthorView.setBackgroundColor(R.color.read)
+            }
+
         }
 
         companion object {

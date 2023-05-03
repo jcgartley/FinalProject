@@ -12,12 +12,16 @@ interface BookDAO {
     @Update
     suspend fun updateBook(book: BookEntity)
 
+    @Query("UPDATE reading_list SET read = 1 WHERE title = :idtitle")
+    fun markRead(idtitle: String)
+    @Query("UPDATE reading_list SET read = 0 WHERE title = :idtitle")
+    fun markUnread(idtitle: String)
+
     @Delete
     suspend fun deleteBook(book: BookEntity)
 
     @Query("DELETE FROM reading_list")
     suspend fun deleteAll()
-
 
     @Query("SELECT * FROM reading_list")
     fun viewAllBooks() : Flow<List<BookEntity>>
@@ -28,5 +32,4 @@ interface BookDAO {
     @Query("SELECT * FROM reading_list WHERE title = :title")
     fun findBook(title: String) : BookEntity
 
-    //TODO: convert to flows
 }

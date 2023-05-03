@@ -58,7 +58,11 @@ abstract class BookRoomDatabase : RoomDatabase(){
                     bookDao.deleteAll()
 
                     // Add sample words.
-                    var book = BookEntity("Catcher in the Rye", "J.D. Salinger", "Classic", "", "0241950430", false, "")
+                    var book = BookEntity("Catcher in the Rye", "J.D. Salinger", "Classic", "", "0241950430", true, "")
+                    bookDao.insertBook(book)
+                    book = BookEntity("Romeo and Juliet", "William Shakespeare", "Classic", "Tragedy", "0606362096", false, "")
+                    bookDao.insertBook(book)
+                    book = BookEntity("Where the Sidewalk Ends", "Shel Silverstein", "Children", "Poetry", "0060256680", false, "")
                     bookDao.insertBook(book)
                 }
 

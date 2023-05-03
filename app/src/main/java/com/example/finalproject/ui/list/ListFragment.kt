@@ -53,11 +53,7 @@ class ListFragment : Fragment() {
     }
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
-        //val recyclerView = itemView.findViewById<RecyclerView>(R.id.recyclerView)
-//        recyclerView.apply {
-//            recyclerView?.layoutManager = LinearLayoutManager(activity)
-//            recyclerView?.adapter = BookListAdapter.BookViewHolder(itemView)
-//        }
+
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerView)
         val adapter = BookListAdapter()
         recyclerView?.adapter = adapter
@@ -68,50 +64,3 @@ class ListFragment : Fragment() {
         }
     }
 }
-
-//package com.example.finalproject.ui.list
-//
-//import android.content.Context
-//import android.os.Bundle
-//import androidx.fragment.app.Fragment
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import androidx.fragment.app.viewModels
-//import androidx.recyclerview.widget.LinearLayoutManager
-//import androidx.recyclerview.widget.RecyclerView
-//import com.example.finalproject.R
-//import com.example.finalproject.database.*
-//import com.example.finalproject.ui.add.*
-//
-//abstract class ListFragment : Fragment() {
-//
-//    private val addViewModel: AddViewModel by viewModels {
-//        AddViewModelFactory((activity?.application as DatabaseApplication).repository)
-//    }
-//    abstract val applicationContext: Context
-//    private var layoutManager: RecyclerView.LayoutManager? = null
-////                private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
-//    private val book = ArrayList<BookEntity>()
-//    private lateinit var db: BookRoomDatabase
-////                    private var adapter: BookListAdapter.BookViewHolder? = null
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        val root = inflater.inflate(R.layout.fragment_list,container,false)
-//        //val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
-//        return root
-//    }
-//
-//    override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(itemView, savedInstanceState)
-//        val recyclerView = itemView.findViewById<RecyclerView>(R.id.recyclerView)
-//        recyclerView.apply {
-//            layoutManager = LinearLayoutManager(activity)
-//            var adapter = BookListAdapter.BookViewHolder(recyclerView)
-//        }
-//
-//    }
-//}

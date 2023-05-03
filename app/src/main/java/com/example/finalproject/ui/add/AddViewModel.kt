@@ -3,19 +3,29 @@ package com.example.finalproject.ui.add
 import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
-import com.example.finalproject.database.*
+import com.example.finalproject.database.DatabaseRepository
+import com.example.finalproject.database.BookEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
 class AddViewModel (private val repository: DatabaseRepository) : ViewModel() {
 
-      //private lateinit var repository : DatabaseRepository
 
     val allBooks: LiveData<List<BookEntity>> = repository.getAllBooks().asLiveData()
 
     private fun insertBook(book: BookEntity) = viewModelScope.launch {
         repository.insertBook(book)
     }
+    private fun updateBook(book: BookEntity) = viewModelScope.launch {
+        repository.updateBook(book)
+    }
+    fun markRead(book: BookEntity) = viewModelScope.launch {
+        repository.markRead(book)
+    }
+    fun markUnread(book: BookEntity) = viewModelScope.launch {
+        repository.markUnread(book)
+    }
+
     private fun getNewBook(title : String,
                            author : String,
                            genre1 : String,
@@ -38,6 +48,14 @@ class AddViewModel (private val repository: DatabaseRepository) : ViewModel() {
                    isbn : String?) {
         val newBook = getNewBook(title, author, genre1, genre2, isbn)
         insertBook(newBook)
+    }
+    fun updateBook(title : String,
+                   author : String,
+                   genre1 : String,
+                   genre2 : String,
+                   isbn : String?) {
+        val newBook = getNewBook(title, author, genre1, genre2, isbn)
+        updateBook(newBook)
     }
     fun deleteBook(book: BookEntity) = viewModelScope.launch {
         repository.deleteBook(book)
