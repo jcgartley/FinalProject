@@ -37,4 +37,7 @@ class DatabaseRepository(private val bookDao: BookDAO) {
         bookDao.markUnread(book.title)
     }
     fun getAllBooks() = bookDao.viewAllBooks()
+    fun getBook(title: String): BookEntity {
+        return bookDao.findBook(title)
+    }
 }

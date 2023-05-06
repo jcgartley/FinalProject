@@ -12,7 +12,9 @@ import com.example.finalproject.R
 import com.example.finalproject.database.BookEntity
 import com.google.android.material.color.MaterialColors.getColor
 
-class BookListAdapter : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(BOOKS_COMPARATOR) {
+
+
+class BookListAdapter(private val onClickListener: OnClickListener) : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(BOOKS_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         return BookViewHolder.create(parent)
@@ -21,6 +23,9 @@ class BookListAdapter : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val current = getItem(position)
         holder.bind(current.title, current.author, current.read)
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(current)
+        }
     }
 
     class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -35,7 +40,6 @@ class BookListAdapter : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(
                 bookTitleView.setBackgroundColor(R.color.read)
                 bookAuthorView.setBackgroundColor(R.color.read)
             }
-
         }
 
         companion object {
@@ -44,6 +48,8 @@ class BookListAdapter : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(
                         .inflate(R.layout.recyclerview_item, parent, false)
                 return BookViewHolder(view)
             }
+
+
         }
     }
     companion object {
@@ -55,6 +61,9 @@ class BookListAdapter : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(
                 return (oldItem.title == newItem.title) && (oldItem.author == newItem.author)
             }
 
+        }
+        class OnClickListener(val clickListener: (book: BookEntity) -> Unit) {
+            fun onClick(book: BookEntity) = clickListener(book)
         }
     }
 }

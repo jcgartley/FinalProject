@@ -13,6 +13,9 @@ class AddViewModel (private val repository: DatabaseRepository) : ViewModel() {
 
     val allBooks: LiveData<List<BookEntity>> = repository.getAllBooks().asLiveData()
 
+    fun getBook(title: String): BookEntity {
+        return repository.getBook(title)
+    }
     private fun insertBook(book: BookEntity) = viewModelScope.launch {
         repository.insertBook(book)
     }
@@ -37,8 +40,7 @@ class AddViewModel (private val repository: DatabaseRepository) : ViewModel() {
             genre1 = genre1,
             genre2 = genre2,
             isbn = isbn,
-            read = false,
-            apiCall = getAPICall(title)
+            read = false
         )
     }
     fun addNewBook(title : String,
@@ -61,10 +63,7 @@ class AddViewModel (private val repository: DatabaseRepository) : ViewModel() {
         repository.deleteBook(book)
     }
 
-    private fun getAPICall(title: String): String {
-        var underscoreTitle = title.replace(" ", "_")
-        return "https://en.wikipedia.org/api/rest_v1/page/summary/$underscoreTitle"
-    }
+
 }
 
 class AddViewModelFactory(private val repository: DatabaseRepository) : ViewModelProvider.Factory {

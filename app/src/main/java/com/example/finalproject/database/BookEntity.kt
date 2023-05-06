@@ -11,6 +11,5 @@ data class BookEntity (
     var genre1 : String,
     var genre2 : String,
     var isbn : String?,  //isbn-10
-    var read : Boolean,
-    var apiCall : String
+    var read : Boolean
 )

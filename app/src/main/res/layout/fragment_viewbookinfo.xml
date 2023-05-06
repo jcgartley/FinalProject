@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:textAlignment="center">
     <!--    tools:context=".ui.add.AddFragment"-->
 
@@ -58,11 +59,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="[SUMMARY]"
+        android:justificationMode="inter_word"
         android:layout_marginTop="8dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/genre1View" />
 
-<!--TODO: ADD mark as read + delete button-->
+
     <CheckBox
         android:id="@+id/markAsRead"
         android:layout_width="wrap_content"

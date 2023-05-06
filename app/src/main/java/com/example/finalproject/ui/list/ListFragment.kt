@@ -1,10 +1,11 @@
 package com.example.finalproject.ui.list
 
+import android.R.attr.value
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.example.finalproject.database.DatabaseApplication
 import com.example.finalproject.ui.add.AddViewModel
 import com.example.finalproject.ui.add.AddViewModelFactory
 import com.example.finalproject.ui.home.HomeViewModel
+
 
 class ListFragment : Fragment() {
     //private lateinit var listViewModel: ListViewModel
@@ -55,9 +57,20 @@ class ListFragment : Fragment() {
         super.onViewCreated(itemView, savedInstanceState)
 
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerView)
-        val adapter = BookListAdapter()
+        val adapter = BookListAdapter(BookListAdapter.Companion.OnClickListener {
+            val nextFrag = ViewBookFragment()
+            val bundle = Bundle()
+            bundle.putString("title", it.title)
+            nextFrag.arguments = bundle
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_list, nextFrag)
+                .addToBackStack(null)
+                .commit()
+        })
         recyclerView?.adapter = adapter
         recyclerView?.layoutManager = LinearLayoutManager(context)
+
+
         addViewModel.allBooks.observe(viewLifecycleOwner) { books ->
             // Update the cached copy of the words in the adapter.
             books.let { adapter.submitList(it) }
