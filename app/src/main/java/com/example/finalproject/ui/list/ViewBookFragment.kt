@@ -1,6 +1,5 @@
 package com.example.finalproject.ui.list
 
-import android.R.attr.defaultValue
 import android.content.ContentValues
 import android.graphics.Typeface.*
 import android.os.Bundle
@@ -8,10 +7,11 @@ import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.*
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
 import com.example.finalproject.R
 import com.example.finalproject.database.BookEntity
 import com.example.finalproject.database.DatabaseApplication
@@ -35,6 +35,7 @@ class ViewBookFragment : Fragment() {
         AddViewModelFactory((activity?.application as DatabaseApplication).repository)
     }
     private lateinit var book : BookEntity
+    private lateinit var read : CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +55,7 @@ class ViewBookFragment : Fragment() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val summaryAPI = retrofit.create(BookSummaryService::class.java)
+        read = root.findViewById(R.id.markAsRead)
 
         Thread {
             val bundle = this.arguments
@@ -105,10 +107,10 @@ class ViewBookFragment : Fragment() {
                 }
             })
 
-        var read = view?.findViewById<CheckBox>(R.id.markAsRead)
-//            read?.isChecked = book.read
-            read?.setOnClickListener{markAsRead(root, book)}
-        view?.findViewById<Button>(R.id.deleteButton)?.setOnClickListener{deleteButton()}
+            read?.isChecked = book.read
+            read?.setOnClickListener{markAsRead()}
+
+            view?.findViewById<Button>(R.id.deleteButton)?.setOnClickListener{deleteButton()}
         }.start()
         return root
     }
@@ -118,13 +120,14 @@ class ViewBookFragment : Fragment() {
     //removes book from Database
     private fun deleteButton() {
         viewModel.deleteBook(book)
+        activity?.onBackPressed()
     }
-    private fun markAsRead(view: View, book: BookEntity) {
-        if (view is CheckBox) {
-            val checked: Boolean = view.isChecked
-            if(checked) viewModel.markRead(book)
+    //book: BookEntity
+    private fun markAsRead() {
+        Thread {
+            if (read.isChecked) viewModel.markRead(book)
             else viewModel.markUnread(book)
-        }
+        }.start()
     }
 
     /*
@@ -134,6 +137,9 @@ class ViewBookFragment : Fragment() {
         this ?: return
         if (!isAdded) return // Fragment is not attached to an Activity
         activity?.runOnUiThread(action)
+    }
+    private fun showToast(text: String){
+        Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
     }
 
 }

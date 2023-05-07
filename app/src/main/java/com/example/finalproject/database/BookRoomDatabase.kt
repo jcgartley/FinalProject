@@ -31,6 +31,7 @@ abstract class BookRoomDatabase : RoomDatabase(){
                     // Migration is not part of this codelab.
                     .fallbackToDestructiveMigration()
                     .addCallback(WordDatabaseCallback(scope))
+                    .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance
                 // return instance
