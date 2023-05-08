@@ -75,10 +75,9 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
         genre1Text.onItemSelectedListener = this
         genre2Text.onItemSelectedListener = this
 
-        //add and update, _buttons, TODO: streamline
+
         view.findViewById<Button>(R.id.add_button).setOnClickListener{addButton(view)}
         view.findViewById<Button>(R.id.update_button).setOnClickListener{updateButton(view)}
-//        view.findViewById<Button>(R.id.view_button).setOnClickListener{viewAllDataButton(view)}
 
         viewModel.allBooks.observe(viewLifecycleOwner) { books ->
             allBooks = books

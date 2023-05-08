@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class BookEntity (
     @PrimaryKey
     var title : String,
-    var author : String,    //TODO: set to default to Unknown, How?
+    var author : String,
     var genre1 : String,
     var genre2 : String,
     var isbn : String?,  //isbn-10

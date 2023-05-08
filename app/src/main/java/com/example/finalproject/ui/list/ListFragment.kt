@@ -15,7 +15,6 @@ import com.example.finalproject.database.BookEntity
 import com.example.finalproject.database.DatabaseApplication
 import com.example.finalproject.ui.add.AddViewModel
 import com.example.finalproject.ui.add.AddViewModelFactory
-import com.example.finalproject.ui.home.HomeViewModel
 
 
 class ListFragment : Fragment() {
@@ -42,8 +41,9 @@ class ListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {val listViewModel =
-        ViewModelProvider(this)[HomeViewModel::class.java]
+    ): View? {
+//        val listViewModel =
+//        ViewModelProvider(this)[AddViewModel::class.java]
 
         //_binding = FragmentListBinding.inflate(inflater, container, false)
         val context = container?.context

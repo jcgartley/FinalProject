@@ -17,7 +17,6 @@ import com.example.finalproject.database.BookEntity
 import com.example.finalproject.database.DatabaseApplication
 import com.example.finalproject.ui.add.AddViewModel
 import com.example.finalproject.ui.add.AddViewModelFactory
-import com.example.finalproject.ui.home.HomeViewModel
 import com.example.finalproject.ui.list.*
 import kotlinx.coroutines.*
 import retrofit2.Call
@@ -46,8 +45,8 @@ class ViewBookFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val listViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+    ): View? {//[HomeViewModel::class.java]
+//        val listViewModel = ViewModelProvider(this)[AddViewModel::class.java]
         val context = container?.context
         val root: View = inflater.inflate(R.layout.fragment_viewbookinfo, container, false)
         val retrofit = Retrofit.Builder()
@@ -116,6 +115,8 @@ class ViewBookFragment : Fragment() {
     }
 
     //TODO: add are you sure prompt?
+    //TODO: add add button to search
+    //TODO: searchable recyclerview
 
     //removes book from Database
     private fun deleteButton() {
