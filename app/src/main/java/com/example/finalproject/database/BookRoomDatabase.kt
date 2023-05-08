@@ -5,12 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.finalproject.ui.add.AddViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [BookEntity::class], version = 3)
+@Database(entities = [BookEntity::class], version = 4)
 abstract class BookRoomDatabase : RoomDatabase(){
     abstract fun bookDAO() : BookDAO
 
@@ -28,16 +27,16 @@ abstract class BookRoomDatabase : RoomDatabase(){
                     "reading_list"
                 )
                     // Wipes and rebuilds instead of migrating if no Migration object.
-                    // Migration is not part of this codelab.
+                    // Migration is not part of this code lab.
                     .fallbackToDestructiveMigration()
-                    .addCallback(WordDatabaseCallback(scope))
+                    .addCallback(WordDatabaseCallback(scope)).allowMainThreadQueries()
                     .build()
                 INSTANCE = instance
                 // return instance
                 instance
             }
         }
-//        .allowMainThreadQueries()
+//
         private class WordDatabaseCallback(
             private val scope: CoroutineScope
         ) : Callback() {

@@ -12,8 +12,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.finalproject.R
 import com.example.finalproject.database.DatabaseApplication
@@ -27,6 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchFragment : Fragment() {
     private val BASE_URL = "https://api.bookcover.longitood.com/bookcover/"
+    private var success = true
     private lateinit var title : String
     private lateinit var author : String
     private val viewModel: AddViewModel by viewModels {
@@ -43,21 +44,26 @@ class SearchFragment : Fragment() {
         val bookImg  = view.findViewById<ImageView>(R.id.image_view)
         val titleText = view.findViewById<EditText>(R.id.title_name)
         val authorText = view.findViewById<EditText>(R.id.author_name)
-        title = titleText.text.toString()
-        author = authorText.text.toString()
+
 
         view.findViewById<Button>(R.id.add_button).setOnClickListener{addButton()}
         view.findViewById<Button>(R.id.search_button).setOnClickListener {
             authorText.hideKeyboard()
+            title = titleText.text.toString()//.replace(" ", "+")
+
+            author = authorText.text.toString()//.replace(" ", "+")
+            Log.d(TAG, "onResponse: $title by $author")
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-            val randomUserAPI = retrofit.create(BookSearchService::class.java)
+            val searchAPI = retrofit.create(BookSearchService::class.java)
             // Using enqueue method allows to make asynchronous call without blocking/freezing main thread
             // randomUserAPI.getUserInfo("us").enqueue  // this end point gets one user only
             // getMultipleUserInfoWithNationality end point gets multiple user info with nationality as parameters
-            randomUserAPI.getBookCover(title,author).enqueue(object :
+
+
+            searchAPI.getBookCover(title,author).enqueue(object :
                 Callback<BookData> {
 
                 override fun onFailure(call: Call<BookData>, t: Throwable) {
@@ -66,15 +72,18 @@ class SearchFragment : Fragment() {
 
                 override fun onResponse(call: Call<BookData>, response: Response<BookData>) {
                     Log.d(TAG, "onResponse: $response")
-
                     val body = response.body()
+
                     if (body != null) {
-                        //Toast.makeText(this@MainActivity,"${body.url}",Toast.LENGTH_LONG).show()
+                        success = true
+                        showToast("success")
                         Glide.with(this@SearchFragment).load(body.url).into(bookImg)
                     }
                     if (body == null){
                         Log.w(TAG, "Valid response was not received")
                         bookImg.setImageResource(0)
+                        success = false
+                        showToast("failed")
                         return
                     }
                 }
@@ -92,8 +101,14 @@ class SearchFragment : Fragment() {
     private fun addButton() {
         // Insert a record
             //title, author accessible as global variables
-        var noGenre = "None"
-        viewModel.addNewBook(title, author, noGenre, noGenre)
+        if (success) {
+            val noGenre = "None"
+            viewModel.addNewBook(title, author, noGenre, noGenre)
+        }
+        else showToast("Book not found")
+    }
+    private fun showToast(text: String){
+        Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
     }
 
 }

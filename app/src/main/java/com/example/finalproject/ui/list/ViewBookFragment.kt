@@ -7,18 +7,13 @@ import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.CompoundButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.*
-import androidx.lifecycle.ViewModelProvider
 import com.example.finalproject.R
 import com.example.finalproject.database.BookEntity
 import com.example.finalproject.database.DatabaseApplication
 import com.example.finalproject.ui.add.AddViewModel
 import com.example.finalproject.ui.add.AddViewModelFactory
-import com.example.finalproject.ui.list.*
-import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,8 +40,7 @@ class ViewBookFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        //        val context = container?.context
+    ): View {
         val root: View = inflater.inflate(R.layout.fragment_viewbookinfo, container, false)
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -102,8 +96,8 @@ class ViewBookFragment : Fragment() {
                 }
             })
 
-            read?.isChecked = book.read
-            read?.setOnClickListener{markAsRead()}
+            read.isChecked = book.read
+            read.setOnClickListener{markAsRead()}
 
             view?.findViewById<Button>(R.id.deleteButton)?.setOnClickListener{deleteButton()}
         }.start()
