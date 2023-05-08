@@ -42,8 +42,6 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        val listViewModel =
-//        ViewModelProvider(this)[AddViewModel::class.java]
 
         //_binding = FragmentListBinding.inflate(inflater, container, false)
         val context = container?.context

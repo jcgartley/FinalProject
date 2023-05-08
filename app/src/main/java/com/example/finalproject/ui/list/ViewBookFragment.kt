@@ -45,9 +45,8 @@ class ViewBookFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {//[HomeViewModel::class.java]
-//        val listViewModel = ViewModelProvider(this)[AddViewModel::class.java]
-        val context = container?.context
+    ): View? {
+        //        val context = container?.context
         val root: View = inflater.inflate(R.layout.fragment_viewbookinfo, container, false)
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
