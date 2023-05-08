@@ -1,13 +1,11 @@
 package com.example.finalproject.ui.list
 
-import android.R.attr.value
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
@@ -18,19 +16,10 @@ import com.example.finalproject.ui.add.AddViewModelFactory
 
 
 class ListFragment : Fragment() {
-    //private lateinit var listViewModel: ListViewModel
-    private val TAG = "BookList"
-
-    //private var _binding: FragmentListBinding? = null
-    //private val binding get() = _binding!!
-
     private val addViewModel: AddViewModel by viewModels {
         AddViewModelFactory((activity?.application as DatabaseApplication).repository)
     }
 
-    lateinit var allBooks : List<BookEntity>
-
-    //private lateinit var recyclerView : RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -42,14 +31,7 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        //_binding = FragmentListBinding.inflate(inflater, container, false)
-        val context = container?.context
-        val root: View = inflater.inflate(R.layout.fragment_list, container, false)
-
-
-
-        return root
+        return inflater.inflate(R.layout.fragment_list, container, false)
     }
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)

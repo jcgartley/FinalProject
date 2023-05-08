@@ -31,13 +31,13 @@ abstract class BookRoomDatabase : RoomDatabase(){
                     // Migration is not part of this codelab.
                     .fallbackToDestructiveMigration()
                     .addCallback(WordDatabaseCallback(scope))
-                    .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance
                 // return instance
                 instance
             }
         }
+//        .allowMainThreadQueries()
         private class WordDatabaseCallback(
             private val scope: CoroutineScope
         ) : Callback() {
@@ -59,11 +59,11 @@ abstract class BookRoomDatabase : RoomDatabase(){
                     bookDao.deleteAll()
 
                     // Add sample words.
-                    var book = BookEntity("Catcher in the Rye", "J.D. Salinger", "Classic", "", "0241950430", true)
+                    var book = BookEntity("Catcher in the Rye", "J.D. Salinger", "Classic", "",true)
                     bookDao.insertBook(book)
-                    book = BookEntity("Romeo and Juliet", "William Shakespeare", "Classic", "Tragedy", "0606362096", false)
+                    book = BookEntity("Romeo and Juliet", "William Shakespeare", "Classic", "Tragedy", false)
                     bookDao.insertBook(book)
-                    book = BookEntity("Where the Sidewalk Ends", "Shel Silverstein", "Children", "Poetry", "0060256680", false)
+                    book = BookEntity("Where the Sidewalk Ends", "Shel Silverstein", "Children", "Poetry", false)
                     bookDao.insertBook(book)
                 }
 

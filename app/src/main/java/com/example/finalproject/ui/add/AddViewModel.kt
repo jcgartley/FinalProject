@@ -33,31 +33,27 @@ class AddViewModel (private val repository: DatabaseRepository) : ViewModel() {
     private fun getNewBook(title : String,
                            author : String,
                            genre1 : String,
-                           genre2 : String,
-                           isbn : String?): BookEntity {
+                           genre2 : String): BookEntity {
         return BookEntity(
             title = title,
             author = author,
             genre1 = genre1,
             genre2 = genre2,
-            isbn = isbn,
             read = false
         )
     }
     fun addNewBook(title : String,
                    author : String,
                    genre1 : String,
-                   genre2 : String,
-                   isbn : String?) {
-        val newBook = getNewBook(title, author, genre1, genre2, isbn)
+                   genre2 : String) {
+        val newBook = getNewBook(title, author, genre1, genre2)
         insertBook(newBook)
     }
     fun updateBook(title : String,
                    author : String,
                    genre1 : String,
-                   genre2 : String,
-                   isbn : String?) {
-        val newBook = getNewBook(title, author, genre1, genre2, isbn)
+                   genre2 : String) {
+        val newBook = getNewBook(title, author, genre1, genre2)
         updateBook(newBook)
     }
     fun deleteBook(book: BookEntity) = viewModelScope.launch {

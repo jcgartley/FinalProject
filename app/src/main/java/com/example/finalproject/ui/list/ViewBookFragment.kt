@@ -96,10 +96,7 @@ class ViewBookFragment : Fragment() {
                     }
                     Log.w(ContentValues.TAG, "Valid response was received")
 
-//                    val data = JSONObject(result)
-//                    val img = data.getString("image")
                     summaryView.text = body.extract
-//                    Glide.with(this@ViewBookFragment).load(body.url).into(summaryView)
                     summaryView.setTypeface(DEFAULT, NORMAL)
 
                 }
@@ -122,24 +119,10 @@ class ViewBookFragment : Fragment() {
         viewModel.deleteBook(book)
         activity?.onBackPressed()
     }
-    //book: BookEntity
     private fun markAsRead() {
         Thread {
             if (read.isChecked) viewModel.markRead(book)
             else viewModel.markUnread(book)
         }.start()
     }
-
-    /*
-    * Enables runOnUiThread to work in fragment
-    * */
-    private fun Fragment?.runOnUiThread(action: () -> Unit) {
-        this ?: return
-        if (!isAdded) return // Fragment is not attached to an Activity
-        activity?.runOnUiThread(action)
-    }
-    private fun showToast(text: String){
-        Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
-    }
-
 }

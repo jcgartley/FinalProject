@@ -81,6 +81,7 @@
         android:layout_height="wrap_content"
         android:text="Delete Book"
         app:layout_constraintEnd_toEndOf="parent"
+        style="@style/button"
         app:layout_constraintStart_toEndOf="@+id/markAsRead"
         app:layout_constraintTop_toTopOf="@+id/markAsRead"/>
 

@@ -12,9 +12,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.finalproject.R
+import com.example.finalproject.database.DatabaseApplication
+import com.example.finalproject.ui.add.AddViewModel
+import com.example.finalproject.ui.add.AddViewModelFactory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,6 +27,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchFragment : Fragment() {
     private val BASE_URL = "https://api.bookcover.longitood.com/bookcover/"
+    private lateinit var title : String
+    private lateinit var author : String
+    private val viewModel: AddViewModel by viewModels {
+        AddViewModelFactory((activity?.application as DatabaseApplication).repository)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,9 +43,10 @@ class SearchFragment : Fragment() {
         val bookImg  = view.findViewById<ImageView>(R.id.image_view)
         val titleText = view.findViewById<EditText>(R.id.title_name)
         val authorText = view.findViewById<EditText>(R.id.author_name)
-        val title = titleText.text
-        val author = authorText.text
+        title = titleText.text.toString()
+        author = authorText.text.toString()
 
+        view.findViewById<Button>(R.id.add_button).setOnClickListener{addButton()}
         view.findViewById<Button>(R.id.search_button).setOnClickListener {
             authorText.hideKeyboard()
             val retrofit = Retrofit.Builder()
@@ -47,7 +57,7 @@ class SearchFragment : Fragment() {
             // Using enqueue method allows to make asynchronous call without blocking/freezing main thread
             // randomUserAPI.getUserInfo("us").enqueue  // this end point gets one user only
             // getMultipleUserInfoWithNationality end point gets multiple user info with nationality as parameters
-            randomUserAPI.getBookCover(title.toString(),author.toString()).enqueue(object :
+            randomUserAPI.getBookCover(title,author).enqueue(object :
                 Callback<BookData> {
 
                 override fun onFailure(call: Call<BookData>, t: Throwable) {
@@ -77,6 +87,13 @@ class SearchFragment : Fragment() {
     private fun View.hideKeyboard() {
         val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    private fun addButton() {
+        // Insert a record
+            //title, author accessible as global variables
+        var noGenre = "None"
+        viewModel.addNewBook(title, author, noGenre, noGenre)
     }
 
 }

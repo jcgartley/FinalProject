@@ -20,12 +20,6 @@ import com.example.finalproject.databinding.FragmentListBinding
 
 
 class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
-
-    private val TAG = "NewBookForm"
-
-    private var _binding: FragmentAddBinding? = null
-    private val binding get() = _binding!!
-    //val viewModel by activityViewModels<AddViewModel>()
     private val viewModel: AddViewModel by viewModels {
         AddViewModelFactory((activity?.application as DatabaseApplication).repository)
     }
@@ -38,7 +32,6 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var authorText : EditText
     private lateinit var genre1Text : Spinner
     private lateinit var genre2Text : Spinner
-    private lateinit var isbnText : EditText
 
     private var noGenre: String = "None"
 
@@ -70,14 +63,13 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
         authorText = view.findViewById(R.id.author_id)
         genre1Text = view.findViewById<Spinner>(R.id.genre1_id)
         genre2Text = view.findViewById<Spinner>(R.id.genre2_id)
-        isbnText = view.findViewById(R.id.isbn_id)
         // set the onItemSelectedListener as (this).  (this) refers to this activity that implements OnItemSelectedListener interface
         genre1Text.onItemSelectedListener = this
         genre2Text.onItemSelectedListener = this
 
 
-        view.findViewById<Button>(R.id.add_button).setOnClickListener{addButton(view)}
-        view.findViewById<Button>(R.id.update_button).setOnClickListener{updateButton(view)}
+        view.findViewById<Button>(R.id.add_button).setOnClickListener{addButton()}
+        view.findViewById<Button>(R.id.update_button).setOnClickListener{updateButton()}
 
         viewModel.allBooks.observe(viewLifecycleOwner) { books ->
             allBooks = books
@@ -89,7 +81,7 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
     /**
      * Inserts a new book in the database
      */
-    private fun addButton(view: View) {
+    private fun addButton() {
         // Insert a record
 
         //accessible as global variables
@@ -97,7 +89,6 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
         //var genre2String
         val title = titleText.text.toString()
         var author = authorText.text.toString()
-        val isbn = isbnText.text.toString()
 
         if (title.isEmpty()){
             showToast("Please enter a title")
@@ -108,14 +99,14 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         //every other field is nullable, except read which is always false on add
 
-        viewModel.addNewBook(title, author, genre1String, genre2String, isbn)
+        viewModel.addNewBook(title, author, genre1String, genre2String)
         clearEditTexts()
     }
 
     /**
      * Updates book in the database
      */
-    private fun updateButton(view: View) {
+    private fun updateButton() {
         // Update a record
 
         //accessible as global variables
@@ -123,7 +114,6 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
         //var genre2String
         val title = titleText.text.toString()
         var author = authorText.text.toString()
-        val isbn = isbnText.text.toString()
 
         if (title.isEmpty()){
             showToast("Please enter a title")
@@ -134,7 +124,7 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         //every other field is nullable, except read which is always false on add
 
-        viewModel.updateBook(title, author, genre1String, genre2String, isbn)
+        viewModel.updateBook(title, author, genre1String, genre2String)
         clearEditTexts()
         showToast("Book Updated")
     }
@@ -149,9 +139,10 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun clearEditTexts(){
         titleText.text.clear()
         authorText.text.clear()
-        isbnText.text.clear()
         genre1String = noGenre
+        genre1Text.setSelection(0)
         genre2String = noGenre
+        genre2Text.setSelection(0)
     }
 
     // genre functions
