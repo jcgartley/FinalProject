@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:textAlignment="center">
-    <!--    tools:context=".ui.add.AddFragment"-->
+    android:background="@android:color/white">
 
 
     <TextView
@@ -15,7 +13,6 @@
         android:layout_height="wrap_content"
         android:text="[TITLE]"
         android:textAlignment="center"
-        android:layout_marginTop="16dp"
         android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

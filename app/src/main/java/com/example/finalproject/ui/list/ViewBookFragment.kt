@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.list
 
+import android.app.AlertDialog
 import android.content.ContentValues
 import android.graphics.Typeface.*
 import android.os.Bundle
@@ -99,19 +100,42 @@ class ViewBookFragment : Fragment() {
             read.isChecked = book.read
             read.setOnClickListener{markAsRead()}
 
-            view?.findViewById<Button>(R.id.deleteButton)?.setOnClickListener{deleteButton()}
+            view?.findViewById<Button>(R.id.deleteButton)?.setOnClickListener{confirmDelete()}
         }.start()
         return root
     }
+    override fun onDestroy() {
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .attach(ListFragment())
+            .commit();
+        super.onDestroy()
+    }
 
     //TODO: add are you sure prompt?
-    //TODO: add add button to search
+    //TODO: add add button to search, have to wait re: api
     //TODO: searchable recyclerview
 
     //removes book from Database
     private fun deleteButton() {
         viewModel.deleteBook(book)
-        activity?.onBackPressed()
+        onDestroy()
+    }
+    private fun confirmDelete(){
+        Thread {
+            runOnUiThread {
+                val builder = requireActivity().let { AlertDialog.Builder(it) }
+                builder.setCancelable(false)
+                builder.setTitle("Delete this book?")
+                builder.setMessage("Are you sure you want to delete this book from your reading list?\nThis action cannot be undone.")
+                builder.setPositiveButton("Delete") { _, _ ->
+                    deleteButton()
+                }
+                builder.setNegativeButton("Cancel") { _, _ ->
+                }
+                builder.show()
+            }
+        }.start()
     }
     private fun markAsRead() {
         Thread {
@@ -119,4 +143,13 @@ class ViewBookFragment : Fragment() {
             else viewModel.markUnread(book)
         }.start()
     }
+    /*
+* Enables runOnUiThread to work in fragment
+* */
+    private fun Fragment?.runOnUiThread(action: () -> Unit) {
+        this ?: return
+        if (!isAdded) return // Fragment is not attached to an Activity
+        activity?.runOnUiThread(action)
+    }
+
 }

@@ -28,6 +28,12 @@ interface BookDAO {
 
     @Query("SELECT * FROM reading_list WHERE read = 0") //0 = false
     fun viewUnread() : Flow<List<BookEntity>>
+    @Query("SELECT * FROM reading_list WHERE genre1 = :genre OR genre2 = :genre")
+    fun findGenre(genre: String) : Flow<List<BookEntity>>
+    @Query("SELECT * FROM reading_list WHERE author LIKE '%' || :author || '%'")
+    fun byAuthor(author: String) : Flow<List<BookEntity>>
+    @Query("SELECT * FROM reading_list WHERE author LIKE '%' || :title || '%'")
+    fun byTitle(title: String) : Flow<List<BookEntity>>
 
     @Query("SELECT * FROM reading_list WHERE title = :title")
     fun findBook(title: String) : BookEntity

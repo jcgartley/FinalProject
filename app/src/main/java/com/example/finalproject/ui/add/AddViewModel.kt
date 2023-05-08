@@ -13,9 +13,20 @@ class AddViewModel (private val repository: DatabaseRepository) : ViewModel() {
 
 
     val allBooks: LiveData<List<BookEntity>> = repository.getAllBooks().asLiveData()
+    val unread: LiveData<List<BookEntity>> = repository.getUnread().asLiveData()
+
 
     fun getBook(title: String): BookEntity {
         return repository.getBook(title)
+    }
+    fun searchTitle(title: String): Flow<List<BookEntity>> {
+        return repository.byTitle(title)
+    }
+    fun searchAuthor(author: String): Flow<List<BookEntity>> {
+        return repository.byAuthor(author)
+    }
+    fun searchGenre(genre: String): Flow<List<BookEntity>> {
+        return repository.searchGenre(genre)
     }
     private fun insertBook(book: BookEntity) = viewModelScope.launch {
         repository.insertBook(book)

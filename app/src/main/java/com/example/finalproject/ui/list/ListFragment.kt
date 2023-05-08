@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.list
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +45,7 @@ class ListFragment : Fragment() {
             nextFrag.arguments = bundle
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_list, nextFrag)
-                .addToBackStack(null)
+                .detach(ListFragment())
                 .commit()
         })
         recyclerView?.adapter = adapter
@@ -55,5 +56,24 @@ class ListFragment : Fragment() {
             // Update the cached copy of the words in the adapter.
             books.let { adapter.submitList(it) }
         }
+    }
+    private fun showFilters(){
+        Thread {
+            runOnUiThread {
+                val builder = requireActivity().let { AlertDialog.Builder(it) }
+                builder.setCancelable(true)
+                builder.setTitle("Filters")
+                builder.setMessage("hi :)")
+                builder.show()
+            }
+        }.start()
+    }
+    /*
+* Enables runOnUiThread to work in fragment
+* */
+    private fun Fragment?.runOnUiThread(action: () -> Unit) {
+        this ?: return
+        if (!isAdded) return // Fragment is not attached to an Activity
+        activity?.runOnUiThread(action)
     }
 }

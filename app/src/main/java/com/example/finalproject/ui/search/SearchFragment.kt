@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.search
 
+import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
@@ -49,9 +50,8 @@ class SearchFragment : Fragment() {
         view.findViewById<Button>(R.id.add_button).setOnClickListener{addButton()}
         view.findViewById<Button>(R.id.search_button).setOnClickListener {
             authorText.hideKeyboard()
-            title = titleText.text.toString()//.replace(" ", "+")
-
-            author = authorText.text.toString()//.replace(" ", "+")
+            title = titleText.text.toString()
+            author = authorText.text.toString()
             Log.d(TAG, "onResponse: $title by $author")
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -107,8 +107,8 @@ class SearchFragment : Fragment() {
         }
         else showToast("Book not found")
     }
-    private fun showToast(text: String){
+
+    fun showToast(text: String){
         Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
     }
-
 }
