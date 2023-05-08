@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.search
 
 data class BookData (
-    val url: String
+    //val url: String
+    val kind: String
 )

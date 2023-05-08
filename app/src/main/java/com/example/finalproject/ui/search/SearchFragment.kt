@@ -26,7 +26,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchFragment : Fragment() {
-    private val BASE_URL = "https://api.bookcover.longitood.com/bookcover/"
+    private val BASE_URL = "https://www.googleapis.com/"
     private var success = true
     private lateinit var title : String
     private lateinit var author : String
@@ -41,18 +41,21 @@ class SearchFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val bookImg  = view.findViewById<ImageView>(R.id.image_view)
         val titleText = view.findViewById<EditText>(R.id.title_name)
         val authorText = view.findViewById<EditText>(R.id.author_name)
-
+        val titleName = "Pale Blue Dot"
 
         view.findViewById<Button>(R.id.add_button).setOnClickListener{addButton()}
+
         view.findViewById<Button>(R.id.search_button).setOnClickListener {
             authorText.hideKeyboard()
-            title = titleText.text.toString()//.replace(" ", "+")
+            title = titleText?.text.toString()//.replace(" ", "+")
 
-            author = authorText.text.toString()//.replace(" ", "+")
+            author = authorText?.text.toString()//.replace(" ", "+")
             Log.d(TAG, "onResponse: $title by $author")
+
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -62,8 +65,7 @@ class SearchFragment : Fragment() {
             // randomUserAPI.getUserInfo("us").enqueue  // this end point gets one user only
             // getMultipleUserInfoWithNationality end point gets multiple user info with nationality as parameters
 
-
-            searchAPI.getBookCover(title,author).enqueue(object :
+            searchAPI.getBookCover(title.toString()).enqueue(object :
                 Callback<BookData> {
 
                 override fun onFailure(call: Call<BookData>, t: Throwable) {
@@ -77,17 +79,19 @@ class SearchFragment : Fragment() {
                     if (body != null) {
                         success = true
                         showToast("success")
-                        Glide.with(this@SearchFragment).load(body.url).into(bookImg)
+                        Log.d(TAG, "onResponse: ${body.kind}")
+                        //Glide.with(this@SearchFragment).load(body.url).into(bookImg)
                     }
                     if (body == null){
                         Log.w(TAG, "Valid response was not received")
-                        bookImg.setImageResource(0)
+                        //bookImg.setImageResource(0)
                         success = false
                         showToast("failed")
                         return
                     }
                 }
             })
+
             titleText.text.clear()
             authorText.text.clear()
         }
