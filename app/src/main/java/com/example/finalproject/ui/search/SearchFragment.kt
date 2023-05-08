@@ -79,8 +79,9 @@ class SearchFragment : Fragment() {
                     if (body != null) {
                         success = true
                         showToast("success")
-                        Log.d(TAG, "onResponse: ${body.kind}")
-                        //Glide.with(this@SearchFragment).load(body.url).into(bookImg)
+                        Log.d(TAG, "onResponse: ${body.items.get(0).volumeInfo.imageLinks}")
+                        val img = body.items[0].volumeInfo.imageLinks
+                        Glide.with(this@SearchFragment).load(img).into(bookImg)
                     }
                     if (body == null){
                         Log.w(TAG, "Valid response was not received")
