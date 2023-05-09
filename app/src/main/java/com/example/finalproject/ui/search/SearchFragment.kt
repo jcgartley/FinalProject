@@ -26,7 +26,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchFragment : Fragment() {
-    private val BASE_URL = "https://www.googleapis.com/"
+    private val BASE_URL = "https://api.bookcover.longitood.com/bookcover/"
     private var success = true
     private lateinit var title : String
     private lateinit var author : String
@@ -45,7 +45,7 @@ class SearchFragment : Fragment() {
         val bookImg  = view.findViewById<ImageView>(R.id.image_view)
         val titleText = view.findViewById<EditText>(R.id.title_name)
         val authorText = view.findViewById<EditText>(R.id.author_name)
-        val titleName = "Pale Blue Dot"
+
 
         view.findViewById<Button>(R.id.add_button).setOnClickListener{addButton()}
 
@@ -65,7 +65,7 @@ class SearchFragment : Fragment() {
             // randomUserAPI.getUserInfo("us").enqueue  // this end point gets one user only
             // getMultipleUserInfoWithNationality end point gets multiple user info with nationality as parameters
 
-            searchAPI.getBookCover(title.toString()).enqueue(object :
+            searchAPI.getBookCover(title,author).enqueue(object :
                 Callback<BookData> {
 
                 override fun onFailure(call: Call<BookData>, t: Throwable) {
@@ -79,9 +79,8 @@ class SearchFragment : Fragment() {
                     if (body != null) {
                         success = true
                         showToast("success")
-                        Log.d(TAG, "onResponse: ${body.items.get(0).volumeInfo.imageLinks}")
-                        val img = body.items[0].volumeInfo.imageLinks
-                        Glide.with(this@SearchFragment).load(img).into(bookImg)
+                        //Toast.makeText(this@MainActivity,"${body.url}",Toast.LENGTH_LONG).show()
+                        Glide.with(this@SearchFragment).load(body.url).into(bookImg)
                     }
                     if (body == null){
                         Log.w(TAG, "Valid response was not received")
