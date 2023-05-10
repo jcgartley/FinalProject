@@ -96,25 +96,20 @@ class ViewBookFragment : Fragment() {
 
                 }
             })
-
-            read.isChecked = book.read
-            read.setOnClickListener{markAsRead()}
-
+            runOnUiThread {
+                read.isChecked = book.read
+                read.setOnClickListener { markAsRead() }
+            }
             view?.findViewById<Button>(R.id.deleteButton)?.setOnClickListener{confirmDelete()}
         }.start()
         return root
     }
     override fun onDestroy() {
 
-        requireActivity().supportFragmentManager.beginTransaction()
-            .attach(ListFragment())
-            .commit();
+        requireActivity().supportFragmentManager.popBackStack()
+
         super.onDestroy()
     }
-
-    //TODO: add are you sure prompt?
-    //TODO: add add button to search, have to wait re: api
-    //TODO: searchable recyclerview
 
     //removes book from Database
     private fun deleteButton() {
@@ -138,10 +133,8 @@ class ViewBookFragment : Fragment() {
         }.start()
     }
     private fun markAsRead() {
-        Thread {
-            if (read.isChecked) viewModel.markRead(book)
-            else viewModel.markUnread(book)
-        }.start()
+        if (read.isChecked) viewModel.markRead(book)
+        if (!read.isChecked) viewModel.markUnread(book)
     }
     /*
 * Enables runOnUiThread to work in fragment

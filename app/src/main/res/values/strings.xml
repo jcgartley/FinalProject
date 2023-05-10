@@ -6,4 +6,6 @@
     <string name="search">Search</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="show_read_books">Show Read Books</string>
+    <string name="hide_read_books">Hide Read Books</string>
 </resources>

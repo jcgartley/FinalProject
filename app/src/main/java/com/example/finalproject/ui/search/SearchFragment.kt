@@ -62,7 +62,7 @@ class SearchFragment : Fragment() {
             // randomUserAPI.getUserInfo("us").enqueue  // this end point gets one user only
             // getMultipleUserInfoWithNationality end point gets multiple user info with nationality as parameters
 
-
+            showToast("Processing...")
             searchAPI.getBookCover(title,author).enqueue(object :
                 Callback<BookData> {
 
@@ -76,14 +76,12 @@ class SearchFragment : Fragment() {
 
                     if (body != null) {
                         success = true
-                        showToast("success")
                         Glide.with(this@SearchFragment).load(body.url).into(bookImg)
                     }
                     if (body == null){
                         Log.w(TAG, "Valid response was not received")
                         bookImg.setImageResource(0)
                         success = false
-                        showToast("failed")
                         return
                     }
                 }
@@ -103,6 +101,7 @@ class SearchFragment : Fragment() {
             //title, author accessible as global variables
         if (success) {
             val noGenre = "None"
+            showToast("Book Added")
             viewModel.addNewBook(title, author, noGenre, noGenre)
         }
         else showToast("Book not found")

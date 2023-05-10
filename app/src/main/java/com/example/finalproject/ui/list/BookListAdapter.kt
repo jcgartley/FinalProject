@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
 import com.example.finalproject.database.BookEntity
-import com.google.android.material.color.MaterialColors.getColor
-
+import kotlinx.coroutines.flow.Flow
 
 
 class BookListAdapter(private val onClickListener: OnClickListener) : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(BOOKS_COMPARATOR) {
@@ -21,25 +20,27 @@ class BookListAdapter(private val onClickListener: OnClickListener) : ListAdapte
     }
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
-        val current = getItem(position)
+        val current: BookEntity = getItem(position)
         holder.bind(current.title, current.author, current.read)
         holder.itemView.setOnClickListener {
             onClickListener.onClick(current)
         }
     }
 
+
     class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val bookTitleView: TextView = itemView.findViewById(R.id.titleView)
         private val bookAuthorView: TextView = itemView.findViewById(R.id.authorView)
 
-        @SuppressLint("ResourceAsColor")
-        fun bind(title: String?, author: String?, unread: Boolean) {//
+        fun bind(title: String?, author: String?, read: Boolean) {//
             bookTitleView.text = title
             bookAuthorView.text = author
-            if (unread) {
-                bookTitleView.setBackgroundColor(R.color.read)
-                bookAuthorView.setBackgroundColor(R.color.read)
-            }
+            var background = R.color.read
+            if (!read) background = R.color.unread
+
+            bookTitleView.setBackgroundResource(background)
+            bookAuthorView.setBackgroundResource(background)
+
         }
 
         companion object {
