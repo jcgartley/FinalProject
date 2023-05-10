@@ -1,6 +1,5 @@
 package com.example.finalproject.ui.search
 
-import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
@@ -42,17 +41,21 @@ class SearchFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val bookImg  = view.findViewById<ImageView>(R.id.image_view)
         val titleText = view.findViewById<EditText>(R.id.title_name)
         val authorText = view.findViewById<EditText>(R.id.author_name)
 
 
         view.findViewById<Button>(R.id.add_button).setOnClickListener{addButton()}
+
         view.findViewById<Button>(R.id.search_button).setOnClickListener {
             authorText.hideKeyboard()
-            title = titleText.text.toString()
-            author = authorText.text.toString()
+            title = titleText?.text.toString()//.replace(" ", "+")
+
+            author = authorText?.text.toString()//.replace(" ", "+")
             Log.d(TAG, "onResponse: $title by $author")
+
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -62,7 +65,6 @@ class SearchFragment : Fragment() {
             // randomUserAPI.getUserInfo("us").enqueue  // this end point gets one user only
             // getMultipleUserInfoWithNationality end point gets multiple user info with nationality as parameters
 
-            showToast("Processing...")
             searchAPI.getBookCover(title,author).enqueue(object :
                 Callback<BookData> {
 
@@ -76,16 +78,20 @@ class SearchFragment : Fragment() {
 
                     if (body != null) {
                         success = true
+                        showToast("success")
+                        //Toast.makeText(this@MainActivity,"${body.url}",Toast.LENGTH_LONG).show()
                         Glide.with(this@SearchFragment).load(body.url).into(bookImg)
                     }
                     if (body == null){
                         Log.w(TAG, "Valid response was not received")
-                        bookImg.setImageResource(0)
+                        //bookImg.setImageResource(0)
                         success = false
+                        showToast("failed")
                         return
                     }
                 }
             })
+
             titleText.text.clear()
             authorText.text.clear()
         }
@@ -101,13 +107,12 @@ class SearchFragment : Fragment() {
             //title, author accessible as global variables
         if (success) {
             val noGenre = "None"
-            showToast("Book Added")
             viewModel.addNewBook(title, author, noGenre, noGenre)
         }
         else showToast("Book not found")
     }
-
-    fun showToast(text: String){
+    private fun showToast(text: String){
         Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
     }
+
 }
