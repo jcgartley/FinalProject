@@ -4,13 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Database(entities = [BookEntity::class], version = 4)
 abstract class BookRoomDatabase : RoomDatabase(){
+
+    //private val BASE_URL = getString(R.string.summaryAPICall)
+    //private val SUMMARY_ERROR = context.getString(R.string.noSum)
     abstract fun bookDAO() : BookDAO
 
     companion object {
@@ -40,32 +40,6 @@ abstract class BookRoomDatabase : RoomDatabase(){
         private class WordDatabaseCallback(
             private val scope: CoroutineScope
         ) : Callback() {
-            /**
-             * Override the onCreate method to populate the database.
-             */
-            override fun onCreate(db: SupportSQLiteDatabase) {
-                super.onCreate(db)
-                // If you want to keep the data through app restarts,
-                // comment out the following line.
-                INSTANCE?.let { database ->
-                    scope.launch(Dispatchers.IO) {
-                        populateDatabase(database.bookDAO())
-                    }
-                }
-            }
-                suspend fun populateDatabase(bookDao: BookDAO) {
-                    // Delete all content here.
-                    bookDao.deleteAll()
-
-                    // Add sample words.
-                    var book = BookEntity("Catcher in the Rye", "J.D. Salinger", "Classic", "",true)
-                    bookDao.insertBook(book)
-                    book = BookEntity("Romeo and Juliet", "William Shakespeare", "Classic", "Tragedy", false)
-                    bookDao.insertBook(book)
-                    book = BookEntity("Where the Sidewalk Ends", "Shel Silverstein", "Children", "Poetry", false)
-                    bookDao.insertBook(book)
-                }
-
-            }
+}
         }
     }

@@ -10,5 +10,8 @@ data class BookEntity (
     var author : String,
     var genre1 : String,
     var genre2 : String,
+    var summary : String,
     var read : Boolean
 )
+
+
