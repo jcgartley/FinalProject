@@ -1,6 +1,5 @@
 package com.example.finalproject.ui.list
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
-import com.example.finalproject.database.BookEntity
 import com.example.finalproject.database.DatabaseApplication
 import com.example.finalproject.ui.add.AddViewModel
 import com.example.finalproject.ui.add.AddViewModelFactory
@@ -22,14 +20,6 @@ class ListFragment : Fragment() {
         AddViewModelFactory((activity?.application as DatabaseApplication).repository)
     }
     private lateinit var adapter: BookListAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -32,12 +32,6 @@ class ViewBookFragment : Fragment() {
     private lateinit var book : BookEntity
     private lateinit var read : CheckBox
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -18,18 +18,17 @@ abstract class BookRoomDatabase : RoomDatabase(){
         private var INSTANCE: BookRoomDatabase? = null
 
         fun getDatabase(context: Context, scope: CoroutineScope): BookRoomDatabase {
-            // if the INSTANCE is not null, then return it,
-            // if it is, then create the database
+            // if the INSTANCE is null, create the database
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     BookRoomDatabase::class.java,
                     "reading_list"
                 )
-                    // Wipes and rebuilds instead of migrating if no Migration object.
-                    // Migration is not part of this code lab.
+                    // Wipes and rebuilds db
                     .fallbackToDestructiveMigration()
-                    .addCallback(WordDatabaseCallback(scope)).allowMainThreadQueries()
+                    .addCallback(WordDatabaseCallback(scope))
+                    .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance
                 // return instance
@@ -45,8 +44,6 @@ abstract class BookRoomDatabase : RoomDatabase(){
              */
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-                // If you want to keep the data through app restarts,
-                // comment out the following line.
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
                         populateDatabase(database.bookDAO())
@@ -54,17 +51,32 @@ abstract class BookRoomDatabase : RoomDatabase(){
                 }
             }
                 suspend fun populateDatabase(bookDao: BookDAO) {
-                    // Delete all content here.
+                    // Delete all content
                     bookDao.deleteAll()
 
-                    // Add sample words.
-                    var book = BookEntity("Catcher in the Rye", "J.D. Salinger", "Classic", "",true)
-                    bookDao.insertBook(book)
-                    book = BookEntity("Romeo and Juliet", "William Shakespeare", "Classic", "Tragedy", false)
-                    bookDao.insertBook(book)
-                    book = BookEntity("Where the Sidewalk Ends", "Shel Silverstein", "Children", "Poetry", false)
-                    bookDao.insertBook(book)
+                    // Add sample data
+                    for (book in books) {
+                        bookDao.insertBook(BookEntity(
+                            book[0] as String,
+                            book[1] as String,
+                            book[2] as String,
+                            book[3] as String,
+                            book[4] as Boolean
+                        ))
+                    }
                 }
+    private val books = arrayOf(
+        arrayOf("Where the Sidewalk Ends", "Shel Silverstein", "Children", "Poetry", true),
+        arrayOf("Catcher in the Rye", "J.D. Salinger", "Classic", "None",true),
+        arrayOf("Hamlet", "William Shakespeare", "Classic", "Tragedy", true),
+        arrayOf("Romeo and Juliet", "William Shakespeare", "Classic", "Tragedy", true),
+        arrayOf("Othello", "William Shakespeare", "Classic", "Tragedy", false),
+        arrayOf("The Shunning", "Beverly Lewis", "None", "None", false),
+        arrayOf("The Scarlet Letter", "Nathaniel Hawthorne", "Classic", "None", true),
+        arrayOf("The Fall of the House of Usher", "Edgar Allan Poe", "Classic", "Horror", false),
+        arrayOf("American Gods", "Neil Gaiman", "Fantasy", "None", true),
+        arrayOf("Equal Rites", "Terry Pratchett", "Fantasy", "None", false)
+    )
 
             }
         }

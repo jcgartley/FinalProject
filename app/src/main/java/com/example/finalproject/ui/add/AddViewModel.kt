@@ -1,12 +1,9 @@
 package com.example.finalproject.ui.add
 
-import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import com.example.finalproject.database.DatabaseRepository
 import com.example.finalproject.database.BookEntity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 
 class AddViewModel (private val repository: DatabaseRepository) : ViewModel() {
@@ -19,15 +16,18 @@ class AddViewModel (private val repository: DatabaseRepository) : ViewModel() {
     fun getBook(title: String): BookEntity {
         return repository.getBook(title)
     }
-    fun searchTitle(title: String): Flow<List<BookEntity>> {
-        return repository.byTitle(title)
-    }
-    fun searchAuthor(author: String): Flow<List<BookEntity>> {
-        return repository.byAuthor(author)
-    }
-    fun searchGenre(genre: String): Flow<List<BookEntity>> {
-        return repository.searchGenre(genre)
-    }
+    /*
+    * unused backend for filtering recyclerview
+    * */
+//    fun searchTitle(title: String): Flow<List<BookEntity>> {
+//        return repository.byTitle(title)
+//    }
+//    fun searchAuthor(author: String): Flow<List<BookEntity>> {
+//        return repository.byAuthor(author)
+//    }
+//    fun searchGenre(genre: String): Flow<List<BookEntity>> {
+//        return repository.searchGenre(genre)
+//    }
     private fun insertBook(book: BookEntity) = viewModelScope.launch {
         repository.insertBook(book)
     }

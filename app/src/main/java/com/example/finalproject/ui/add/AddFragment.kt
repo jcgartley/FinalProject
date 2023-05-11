@@ -1,23 +1,15 @@
 package com.example.finalproject.ui.add
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.finalproject.R
-import com.example.finalproject.database.DatabaseRepository
 import com.example.finalproject.database.BookEntity
 import com.example.finalproject.database.DatabaseApplication
-import com.example.finalproject.databinding.ActivityMainBinding
-import com.example.finalproject.databinding.FragmentAddBinding
-import com.example.finalproject.databinding.FragmentListBinding
-
 
 class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private val viewModel: AddViewModel by viewModels {
@@ -26,7 +18,6 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
     lateinit var book : BookEntity
     lateinit var allBooks : List<BookEntity>
 
-    //private lateinit var db: BookRoomDatabase
     // Create instances of EditText as global variables so that other methods can access them
     private lateinit var titleText: EditText
     private lateinit var authorText : EditText
@@ -38,31 +29,18 @@ class AddFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var genre1String: String = noGenre
     private var genre2String: String = noGenre
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //super.onCreate(savedInstanceState)
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_add, container, false)
-        //setContentView(R.layout.activity_main)
-//        rootView.findViewById(R.id.content)
-//            .addView(aboutPage) //<-- Instead of setContentView(aboutPage)
-
-        //val adapter = ReadingListAdapter()
 
         titleText = view.findViewById(R.id.title_id)
         authorText = view.findViewById(R.id.author_id)
-        genre1Text = view.findViewById<Spinner>(R.id.genre1_id)
-        genre2Text = view.findViewById<Spinner>(R.id.genre2_id)
+        genre1Text = view.findViewById(R.id.genre1_id)
+        genre2Text = view.findViewById(R.id.genre2_id)
         // set the onItemSelectedListener as (this).  (this) refers to this activity that implements OnItemSelectedListener interface
         genre1Text.onItemSelectedListener = this
         genre2Text.onItemSelectedListener = this

@@ -83,6 +83,7 @@ class SearchFragment : Fragment() {
                         Glide.with(this@SearchFragment).load(body.url).into(bookImg)
                     }
                     if (body == null){
+                        showToast("Book Not Found")
                         Log.w(TAG, "Valid response was not received")
                         //bookImg.setImageResource(0)
                         success = false

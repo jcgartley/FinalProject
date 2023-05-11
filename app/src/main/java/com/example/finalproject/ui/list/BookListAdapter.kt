@@ -1,6 +1,5 @@
 package com.example.finalproject.ui.list
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
 import com.example.finalproject.database.BookEntity
-import kotlinx.coroutines.flow.Flow
 
 
 class BookListAdapter(private val onClickListener: OnClickListener) : ListAdapter<BookEntity, BookListAdapter.BookViewHolder>(BOOKS_COMPARATOR) {
